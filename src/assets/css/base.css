@@ -1,0 +1,39 @@
+@charset "utf-8";
+/*清除默认样式*/
+* {
+	margin: 0;
+	padding: 0;
+}
+img {
+	vertical-align: top;
+	border: none;
+}
+a {
+	text-decoration: none;
+	color: #000;
+}
+li {
+	list-style: none;
+}
+input {
+	border: none;
+	background: none;
+	outline: none;
+}
+textarea {
+	resize: none;
+}
+body {
+	font: 12px 'Microsoft yahei';
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: normal;
+}
+em,i{
+	font-style: normal;
+}

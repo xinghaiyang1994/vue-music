@@ -1,0 +1,34 @@
+/*常用*/
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+.clearfix:after{
+	content: '';
+	display: block;
+	clear: both;
+}
+.icon{
+	display: inline-block;	
+}
+
+/*项目*/
+html,body,#app{
+	height: 100%;
+	overflow: hidden;
+}
+html,body{
+	font-size: 0.5rem;
+}
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+
+
