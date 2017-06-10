@@ -5,12 +5,24 @@
 				<header>
 					<i class="icon icon-back" @click="back">返回</i>
 					<div class="search-wrap">
-						<input type="text" class="search-inp" />
-						<i class="icon icon-cancel" >取消</i>
+						<input type="text" placeholder="搜索音乐、歌手、歌词、用户" class="search-inp" v-model="txt" @focus="whenFocus" />
+						<i class="icon icon-cancel" v-show="txt" @click="clearTxt">取消</i>
+						<div class="search-sub" v-show="isFocus && txt" @click="search">
+							搜索“{{txt}}”
+						</div>
 					</div>
 				</header>
 				<section class="middle">
-				
+					<div class="find-nothing" v-if="isSearch && (aSong.length==0)">未找到与"{{nTxt}}"相关的内容</div>
+					<ul v-else-if="aSong.length!=0">
+						<li class="song-list" v-for="(item,index) in aSong">
+							<div @click="toPlay(item)">
+								<h3 class="song-list-title">{{item.title}}</h3>
+								<p class="song-list-author">{{item.author}}</p>
+							</div>
+						</li>
+					</ul>
+					
 				</section>
 			</div>	
 		</div>
@@ -18,6 +30,7 @@
 </template>
 
 <script>
+import Axios from 'axios';
 import Store from '../store';
 import Router from '../router';
 
@@ -25,12 +38,55 @@ export default {
 	name: 'hello',
 	data() {
 		return {
-			msg: 'Welcome to Your Vue.js App'
+			txt: '',
+			isSearch:false,
+			isFocus:false,
+			aSong:[],
+			nTxt:''
 		}
 	},
 	methods:{
 		back (){
 			Router.go(-1);
+		},
+		clearTxt(){
+			this.txt='';
+		},
+		whenFocus(){
+			this.isFocus=true;
+		},
+		search(){
+			var self=this;
+			Axios({
+				url:'http://www.xinghaiyang.com/music/php/search.php',
+				params:{
+					name:self.txt
+				}
+			}).then(function(res){
+				var aSong=res.data.data.song.list;
+				if(aSong.length != 0){
+					var newSong=[];
+					for(var i=0;i<aSong.length;i++){
+						var song={};
+						song.title=aSong[i].fsong;
+						song.author=aSong[i].fsinger;
+						song.id=aSong[i].f.split('|')[0];
+						song.imgId=aSong[i].f.split('|')[4];
+						newSong.push(song);
+					}
+					self.aSong=newSong;
+					self.isFocus=false;
+				}else{
+					self.isSearch=true;
+					self.nTxt=self.txt;
+				}
+			}).catch(function(err){
+				alert(err);
+			})
+		},
+		toPlay(item){
+			Store.commit('resetCur',item);
+			Router.push('/play');
 		}
 	}
 }
@@ -52,6 +108,7 @@ export default {
 		height: 108/75rem;
 		background: #d33a31;	
 		display: flex;
+		position: relative;
 	}
 	footer{
 		width: 100%;
@@ -60,16 +117,7 @@ export default {
 	}
 	.middle{
 		flex: 1;
-	}
-	.icon-back{
-		width: 1rem;
-		height: 100%;
-		background: yellow;
-	}
-	.icon-cancel{
-		width: 1rem;
-		height: 100%;
-		background: yellow;
+		overflow-y: auto;
 	}
 	.search-wrap{
 		flex: 1;
@@ -81,4 +129,45 @@ export default {
 		height: 108/75rem;
 		font-size: 0.5rem;		
 	}
+	.search-sub{
+		position: absolute;
+		top: 114/75rem;
+		left: 0;
+		width: 100%;
+		background: #fff;
+		border: 1px solid aqua;
+		line-height: 100/75rem;
+		height: 100/75rem;
+		font-size: 30/75rem;
+		padding: 0 30/75rem;
+		box-sizing: border-box;
+	}
+	.middle{
+		background: #f2f4f5;
+	}
+	.find-nothing{
+		font-size: 26/75rem;
+		line-height: 1.5;
+		padding-top: 146/75rem;
+		text-align: center;
+		color: #9c9c9c;
+	}
+	.song-list{
+		border-bottom: 1px solid #e2e4e5;
+		padding: 15/75rem 0;
+	}
+	.song-list-title{
+		font-size: 30/75rem;
+		color: #383939;
+		line-height: 50/75rem;
+	}
+	.song-list-author{
+		font-size: 30/75rem;
+		color: #383939;
+		line-height: 50/75rem;
+		font-size: 22/75rem;
+		line-height: 38/75rem;
+		color: #628bb7;
+	}
+	
 </style>
