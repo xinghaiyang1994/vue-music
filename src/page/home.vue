@@ -2,11 +2,11 @@
 	<div class="home">
 		<div class="main">
 			<header>
-				<i class="icon icon-nav">导航</i>
+				<i class="icon icon-nav"></i>
 				<nav>
 					
 				</nav>
-				<i class="icon icon-search" @click="toSearch">搜索</i>
+				<i class="icon icon-search" @click="toSearch"></i>
 			</header>
 			<section class="middle">
 				<router-view></router-view>
@@ -61,14 +61,16 @@ export default {
 		flex: 1;
 	}
 	.icon-nav{
-		width: 1rem;
-		height: 100%;
-		background: yellow;
+		width: 108/75rem;
+		height: 108/75rem;
+		background: url(../assets/img/icon/icon-nav.png) no-repeat;
+		background-size: contain;
 	}
 	.icon-search{
-		width: 1rem;
-		height: 100%;
-		background: yellow;
+		width: 108/75rem;
+		height: 108/75rem;
+		background: url(../assets/img/icon/icon-search.png) no-repeat;
+		background-size: contain;
 	}
 	nav{
 		flex: 1;

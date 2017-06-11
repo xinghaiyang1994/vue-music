@@ -1,8 +1,20 @@
 <template>
-	<div class="lrc">
-		<ul class="lrc-main">
-			<li v-for="(item,index) in curLrc">{{item.txt}}</li>
-		</ul>
+	<div class="lrc" @click="lrcTab">
+		<div class="lrc-volume">
+			<i class="icon icon-volume"></i>
+			<div class="volume-wrap">
+				<span class="volume-bar" v-bind:style="'width:'+(curVolume*100)+'%'"></span>
+				<em class="volume-round" v-bind:style="'left:'+(curVolume*100)+'%'"></em>
+			</div>
+		</div>
+		<div class="lrc-wrap">
+			<ul class="lrc-main" v-if="curLrc">
+				<li v-for="(item,index) in curLrc">{{item.txt}}</li>
+			</ul>
+			<div class="lrc-main" v-else>
+				暂无歌词
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -23,7 +35,7 @@ export default {
 			lrc:[]
 		}
 	},
-	props:['curTime'],
+	props:['curTime','allTime'],
 	computed:{
 		curSong(){
 			return Store.state.curSong;
@@ -55,7 +67,7 @@ export default {
 						}
 						
 					}else{
-						alert('没有歌词')
+						return false;
 					}
 				},
 				error:function(err){
@@ -71,6 +83,14 @@ export default {
 			}else{
 				return '';
 			}
+		},
+		curVolume(){
+			return Store.state.curVolume;
+		}
+	},
+	methods:{
+		lrcTab(){
+			Store.commit('lrcTab');
 		}
 	},
 	watch:{
@@ -90,6 +110,12 @@ export default {
 				});
 				$('.lrc-main li').eq(iNow).addClass('lrc-cur').siblings().removeClass('lrc-cur');
 			}
+			if(value == this.allTime){
+				$('.lrc-main li').removeClass('lrc-cur');
+				$('body .lrc-main').css({
+					transform:'translateY(0)'
+				});
+			}
 		}
 	}
 }
@@ -97,6 +123,61 @@ export default {
 </script>
 
 <style scoped lang="less">
+	.lrc{
+		position: relative;
+	}
+	.lrc-volume{
+		position: absolute;
+		top: 0;
+		height: 38/75rem;
+		width: 100%;
+		display: flex;
+	}
+	.icon-volume{
+		display: block;
+		width: 38/75rem;
+		height: 38/75rem;
+		background: url(../assets/img/icon/icon-volume.png) no-repeat;
+		background-size: contain;
+		margin: 0 32/75rem 0 42/75rem;
+	}
+	.volume-wrap{
+		flex: 1;
+		position: relative;
+		margin-top: 17/75rem;
+		margin-right: 70/75rem;
+		height: 4/75rem;
+		border-radius: 2/75rem;
+		background: #4b4540;
+		
+	}
+	.volume-bar{
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		background: #fff;
+	}
+	.volume-round{
+		position: absolute;
+		display: block;
+		width: 18/75rem;
+		height: 18/75rem;
+		top: -7/75rem;
+		margin-left: -9/75rem;
+		border-radius: 50%;
+		background: #fff;
+		
+	}
+	.lrc-wrap{
+		position: absolute;
+		top: 38/75rem;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
 	.lrc-main{
 		text-align: center;
 		font-size: 32/75rem;

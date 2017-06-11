@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state:{
-		isLrc:true,
+		isStart:true,
+		isLrc:false,
 		curSong:{
 			title:'青花瓷',
 			author:'周杰伦',
@@ -15,7 +16,9 @@ export default new Vuex.Store({
 			imgId:33021
 		},
 		curLrc:[],
-		curTime:0
+		curTime:0,
+		allTime:0,
+		curVolume:0
 	},
 	mutations:{
 		resetCur(state,item){
@@ -26,6 +29,15 @@ export default new Vuex.Store({
 		},
 		updateTime(state,time){
 			state.curTime=time;
+		},
+		getAllTime(state,time){
+			state.allTime=time;
+		},
+		ctrl(state){
+			state.isStart=!state.isStart;
+		},
+		updateVolume(state,volume){
+			state.curVolume=volume;
 		}
 	}
 });

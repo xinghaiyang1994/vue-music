@@ -3,10 +3,10 @@
 		<div class="home">
 			<div class="main">
 				<header>
-					<i class="icon icon-back" @click="back">返回</i>
+					<i class="icon icon-back" @click="back"></i>
 					<div class="search-wrap">
 						<input type="text" placeholder="搜索音乐、歌手、歌词、用户" class="search-inp" v-model="txt" @focus="whenFocus" />
-						<i class="icon icon-cancel" v-show="txt" @click="clearTxt">取消</i>
+						<i class="icon icon-cancel" v-show="txt" @click="clearTxt"></i>
 						<div class="search-sub" v-show="isFocus && txt" @click="search">
 							搜索“{{txt}}”
 						</div>
@@ -14,7 +14,7 @@
 				</header>
 				<section class="middle">
 					<div class="find-nothing" v-if="isSearch && (aSong.length==0)">未找到与"{{nTxt}}"相关的内容</div>
-					<ul v-else-if="aSong.length!=0">
+					<ul v-else-if="aSong.length!=0" class="song-wrap">
 						<li class="song-list" v-for="(item,index) in aSong">
 							<div @click="toPlay(item)">
 								<h3 class="song-list-title">{{item.title}}</h3>
@@ -64,6 +64,7 @@ export default {
 				}
 			}).then(function(res){
 				var aSong=res.data.data.song.list;
+				console.log(aSong)
 				if(aSong.length != 0){
 					var newSong=[];
 					for(var i=0;i<aSong.length;i++){
@@ -115,32 +116,54 @@ export default {
 		height: 102/75rem;
 		background: #d33a31;	
 	}
+	.icon-back{
+		width: 108/75rem;
+		height: 108/75rem;
+		background: url(../assets/img/icon/icon-back.png) no-repeat;
+		background-size: contain;
+	}
+	.icon-cancel{
+		width: 86/75rem;
+		height: 72/75rem;
+		background: url(../assets/img/icon/icon-cancel.png) no-repeat;
+		background-size: contain;
+	}
 	.middle{
 		flex: 1;
 		overflow-y: auto;
 	}
 	.search-wrap{
 		flex: 1;
+		margin-right: 17/75rem;
+		height: 72/75rem;
+		padding-top: 17/75rem;
 		display: flex;
+		border-bottom: 1px solid #fff;
 	}
 	.search-inp{
 		display: block;
 		flex: 1;
-		height: 108/75rem;
-		font-size: 0.5rem;		
+		height: 72/75rem;
+		line-height: 72/75rem;
+		font-size: 0.5rem;	
+		color: #fff;	
+	}
+	.search-inp::-webkit-input-placeholder{
+	    color: #e0756e;
 	}
 	.search-sub{
 		position: absolute;
 		top: 114/75rem;
-		left: 0;
-		width: 100%;
+		right: 17/75rem;
+		width: 700/75rem;
 		background: #fff;
-		border: 1px solid aqua;
 		line-height: 100/75rem;
 		height: 100/75rem;
 		font-size: 30/75rem;
 		padding: 0 30/75rem;
+		color: #4f7cae;
 		box-sizing: border-box;
+		box-shadow: 0 0.1rem 0.1rem #ccc;
 	}
 	.middle{
 		background: #f2f4f5;
@@ -169,5 +192,7 @@ export default {
 		line-height: 38/75rem;
 		color: #628bb7;
 	}
-	
+	.song-wrap{
+		padding: 0 12/75rem;
+	}
 </style>

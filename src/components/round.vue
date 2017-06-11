@@ -1,12 +1,11 @@
 <template>
-	<div class="round">
-		<em class="round-top" v-bind:class="rTop"></em>
-		<div class="round-main" v-bind:class="rState">
+	<div class="round" @click="lrcTab">
+		<em class="round-top" v-bind:class="rTop" v-bind:style="'transform:rotate(-'+curDeg+'deg);'"></em>
+		<div class="round-main" v-bind:class="isStart?'':'round-stop'" >
 			<div class="round-cell">
 				<img v-bind:src="src" class="round-img"/>
 			</div>
 		</div>
-		<i class="icon" @click="changeit">点击</i>
 	</div>
 </template>
 
@@ -18,15 +17,15 @@ import img from '../assets/img/default.jpg';
 export default {
 	data(){
 		return {
-			rState:{
-				'round-act':true
-			},
 			rTop:{
 				'round-top-start':true,
 				'round-top-stop':false
 			}
 		}
 	},
+	props:[
+		'isStart'
+	],
 	computed:{
 		src(){
 			if(Store.state.curSong.imgId ){
@@ -34,12 +33,27 @@ export default {
 			}else{
 				return img;
 			}
+		},
+		curDeg(){
+			if(this.isStart){
+				return 0;
+			}else{
+				return 45;
+			}
 		}
 	},
 	methods:{
-		changeit(){
-			this.rTop['round-top-start']=!this.rTop['round-top-start'];
-			this.rTop['round-top-stop']=!this.rTop['round-top-stop'];
+		lrcTab(){
+			Store.commit('lrcTab');
+		}
+	},
+	watch:{
+		isStart(value){
+			if(value){
+				this.curDeg=0;
+			}else{
+				this.curDeg=45;
+			}
 		}
 	}
 }
@@ -52,22 +66,6 @@ export default {
 		}
 		to{
 			transform: rotateZ(360deg);
-		}
-	}
-	@keyframes roundTopStart{
-		from{
-			transform: rotateZ(-45deg);
-		}
-		to{
-			transform: rotateZ(0);
-		}
-	}
-	@keyframes roundTopStop{
-		from{
-			transform: rotateZ(0);
-		}
-		to{
-			transform: rotateZ(-45deg);
 		}
 	}
 	.round{
@@ -93,6 +91,8 @@ export default {
 		height: 264/75rem;
 		background: url(../assets/img/round-top.png) no-repeat center;
 		transform-origin:30/75rem top;
+		transform: rotateZ(-45deg);
+		transition: all 0.5s;
 		background-size: contain;
 		&:before{
 			content: '';
@@ -117,12 +117,6 @@ export default {
 			background: #dededf;
 		}
 	}
-	/*.round-top-start{
-		animation: roundTopStart 1s forwards;
-	}*/
-	.round-top-stop{
-		animation: roundTopStop 1s forwards;
-	}
 	.round-main{
 		width: 546/75rem;
 		height: 546/75rem;
@@ -131,6 +125,7 @@ export default {
 		overflow: hidden;
 		margin: 130/75rem auto 0;
 		border: 10/75rem solid #4f4039;
+		animation: round 10s linear infinite;
 	}
 	.round-cell{
 		width: 546/75rem;
@@ -145,8 +140,8 @@ export default {
 		border-radius: 50%;
 		border: 8/75rem solid #000;
 	}
-	.round-act{
-		animation: round 10s linear infinite;
+	.round-stop{
+		animation-play-state:paused;
 	}
 	
 	
