@@ -18,7 +18,7 @@ export default new Vuex.Store({
 		curLrc:[],
 		curTime:0,
 		allTime:0,
-		curVolume:0
+		curVolume:0.8
 	},
 	mutations:{
 		resetCur(state,item){
@@ -36,7 +36,7 @@ export default new Vuex.Store({
 		ctrl(state){
 			state.isStart=!state.isStart;
 		},
-		updateVolume(state,volume){
+		changeVolume(state,volume){
 			state.curVolume=volume;
 		}
 	}

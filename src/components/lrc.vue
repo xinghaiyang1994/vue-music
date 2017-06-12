@@ -1,5 +1,5 @@
 <template>
-	<div class="lrc" @click="lrcTab">
+	<div class="lrc">
 		<div class="lrc-volume">
 			<i class="icon icon-volume"></i>
 			<div class="volume-wrap">
@@ -7,7 +7,7 @@
 				<em class="volume-round" v-bind:style="'left:'+(curVolume*100)+'%'"></em>
 			</div>
 		</div>
-		<div class="lrc-wrap">
+		<div class="lrc-wrap" @click="lrcTab">
 			<ul class="lrc-main" v-if="curLrc">
 				<li v-for="(item,index) in curLrc">{{item.txt}}</li>
 			</ul>
@@ -22,6 +22,7 @@
 import Axios from 'axios';
 
 import $ from '../assets/js/jquery.js';
+import Hammer from '../assets/js/hammer.min.js';
 
 import Store from '../store'; 
 
@@ -32,7 +33,8 @@ function toTime(time){
 export default {
 	data(){
 		return {
-			lrc:[]
+			lrc:[],
+			l:Store.state.curVolume*100
 		}
 	},
 	props:['curTime','allTime'],
@@ -117,6 +119,43 @@ export default {
 				});
 			}
 		}
+	},
+	mounted(){
+		var self=this;
+		
+//		音量控制
+		var w=parseInt($('.volume-wrap').css('width'));
+		$('.volume-round')[0].addEventListener('touchstart',function(e){
+			var disX=e.touches[0].pageX/w*100-self.l;
+			function fnMove(e){
+				self.l=e.touches[0].pageX/w*100-disX;
+				if(self.l>100){
+					self.l=100;
+				}else if(self.l<0){
+					self.l=0;
+				}
+				$('.volume-round').css({
+					left:self.l+'%'
+				});
+				Store.commit('changeVolume',self.l/100);
+			}
+			function fnEnd(e){
+				self.l=e.changedTouches[0].pageX/w*100-disX;
+				if(self.l>100){
+					self.l=100;
+				}else if(self.l<0){
+					self.l=0;
+				}
+				$('.volume-round').css({
+					left:self.l+'%'
+				});
+				document.removeEventListener('touchmove',fnMove);
+				document.removeEventListener('touchend',fnEnd);
+			}
+			document.addEventListener('touchmove',fnMove);
+			document.addEventListener('touchend',fnEnd);
+		});
+		
 	}
 }
 	
@@ -142,7 +181,7 @@ export default {
 		margin: 0 32/75rem 0 42/75rem;
 	}
 	.volume-wrap{
-		flex: 1;
+		width: 568/75rem;
 		position: relative;
 		margin-top: 17/75rem;
 		margin-right: 70/75rem;

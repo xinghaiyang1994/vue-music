@@ -10,7 +10,7 @@
 			<i class="icon"></i>
 		</header>
 		<round class="section" v-show="!isLrc" v-bind:isStart="isStart" ></round>
-		<lrc class="section" v-show="isLrc" v-bind:curTime="curTime" v-bind:allTime="allTime"  ></lrc>
+		<lrc class="section" v-show="isLrc" v-bind:curTime="curTime" v-bind:allTime="allTime"></lrc>
 		<footer>
 			<div class="progress">
 				<span>{{curTime | toShowTime}}</span>
@@ -83,6 +83,9 @@ export default {
 		},
 		isStart(){
 			return Store.state.isStart;
+		},
+		curVolume(){
+			return Store.state.curVolume;
 		}
 	},
 	methods:{
@@ -99,13 +102,51 @@ export default {
 	},
 	mounted(){
 		var audio=document.querySelector('#audio');
+		var self=this;
+
+//		歌曲播放时
 		audio.addEventListener('timeupdate',function(){
 			var time=parseInt(this.currentTime*100);
 			var allTime=parseInt(this.duration*100);
 			Store.commit('updateTime',time);
 			Store.commit('getAllTime',allTime);
-			Store.commit('updateVolume',this.volume);
 		},false);		
+		audio.volume=Store.state.curVolume;
+		
+		
+		var l=(parseInt(this.curTime))/(parseInt(this.allTime))*100;
+		console.log(l)
+//		歌曲进度控制		
+		var w=parseInt($('.progress-round').css('width'));
+		$('.progress-round')[0].addEventListener('touchstart',function(e){
+			audio.pause();
+			console.log(l)
+			var disX=e.touches[0].pageX/w*100-l;
+			function fnMove(e){
+				l=e.touches[0].pageX/w*100-disX;
+				if(l>100){
+					l=100;
+				}else if(l<0){
+					l=0;
+				}
+				console.log(l+'    999')
+//				Store.commit('changeVolume',l/100);
+			}
+			function fnEnd(e){
+				l=e.changedTouches[0].pageX/w*100-disX;
+				if(l>100){
+					l=100;
+				}else if(l<0){
+					l=0;
+				}
+				document.removeEventListener('touchmove',fnMove);
+				document.removeEventListener('touchend',fnEnd);
+			}
+			document.addEventListener('touchmove',fnMove);
+			document.addEventListener('touchend',fnEnd);
+		});		
+		
+		
 	},
 	watch:{
 		isStart(value){
@@ -114,6 +155,9 @@ export default {
 			}else{
 				audio.pause();
 			}
+		},
+		curVolume(value){
+			audio.volume=value;
 		}
 	}
 }
