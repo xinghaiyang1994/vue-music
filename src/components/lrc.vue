@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="lrc-wrap" @click="lrcTab">
-			<ul class="lrc-main" v-if="curLrc">
+			<ul class="lrc-main" v-if="curLrc.length">
 				<li v-for="(item,index) in curLrc">{{item.txt}}</li>
 			</ul>
 			<div class="lrc-main" v-else>

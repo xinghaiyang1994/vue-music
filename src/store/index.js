@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state:{
+		isSide:false,
 		isStart:true,
 		isLrc:false,
 		curSong:{
@@ -17,7 +18,7 @@ export default new Vuex.Store({
 		},
 		curLrc:[],
 		curTime:0,
-		allTime:0,
+		allTime:1,
 		curVolume:0.8
 	},
 	mutations:{
@@ -38,6 +39,23 @@ export default new Vuex.Store({
 		},
 		changeVolume(state,volume){
 			state.curVolume=volume;
+		},
+		changeProgress(state,progress){
+			state.curTime=state.allTime*progress;
+		},
+		songCtrl(state,info){
+			if(info == 'stop'){
+				state.isStart=false;
+			}else if(info == 'start'){
+				state.isStart=true;
+			}
+		},
+		side(state,info){
+			if(info == 'show'){
+				state.isSide=true;
+			}else if(info == 'hide'){
+				state.isSide=false;
+			}
 		}
 	}
 });

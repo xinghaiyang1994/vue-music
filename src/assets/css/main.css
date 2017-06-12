@@ -21,6 +21,7 @@ html,body,#app{
 }
 html,body{
 	font-size: 0.5rem;
+	background: #f2f4f5;
 }
 audio{
 	position: absolute;
@@ -35,5 +36,11 @@ audio{
 .fade-enter, .fade-leave-active {
   opacity: 0
 }
+/*.fade-enter-active, .fade-leave-active {
+    transition: all 1s ease;
+}
 
+.fade-enter, .fade-leave-active {
+    transform:translateX(100%);
+}*/
 

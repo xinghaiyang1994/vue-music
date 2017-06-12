@@ -114,31 +114,33 @@ export default {
 		audio.volume=Store.state.curVolume;
 		
 		
-		var l=(parseInt(this.curTime))/(parseInt(this.allTime))*100;
-		console.log(l)
-//		歌曲进度控制		
-		var w=parseInt($('.progress-round').css('width'));
+
+//		歌曲进度控制	
+		var w=parseInt($('.progress-main').css('width'));
 		$('.progress-round')[0].addEventListener('touchstart',function(e){
 			audio.pause();
-			console.log(l)
-			var disX=e.touches[0].pageX/w*100-l;
+			var disX=e.touches[0].pageX/w*100-(parseInt(self.curTime))/(parseInt(self.allTime))*100;
 			function fnMove(e){
-				l=e.touches[0].pageX/w*100-disX;
+				var l=e.touches[0].pageX/w*100-disX;
 				if(l>100){
 					l=100;
 				}else if(l<0){
 					l=0;
 				}
-				console.log(l+'    999')
-//				Store.commit('changeVolume',l/100);
+				Store.commit('changeProgress',l/100);
+				Store.commit('songCtrl','stop');
 			}
 			function fnEnd(e){
-				l=e.changedTouches[0].pageX/w*100-disX;
+				var l=e.changedTouches[0].pageX/w*100-disX;
 				if(l>100){
 					l=100;
 				}else if(l<0){
 					l=0;
 				}
+				Store.commit('changeProgress',l/100);
+				Store.commit('songCtrl','start');
+				audio.currentTime=l/10000*(self.allTime);
+				audio.play();
 				document.removeEventListener('touchmove',fnMove);
 				document.removeEventListener('touchend',fnEnd);
 			}
@@ -211,15 +213,19 @@ export default {
 		>span{
 			width: 90/75rem;
 			color: #fff;
+			padding-left: 10/75rem;
+			box-sizing: border-box;
 		}
 		>span:first-child{
-			width: 90/75rem;
 			text-align: right;
+			padding-right: 10/75rem;
+			padding-left:0;
+			box-sizing: border-box;
+			
 		}
 	}
 	.progress-main{
 		flex: 1;
-		
 	}
 	.progress-box{
 		width: 548/75rem;
@@ -234,8 +240,7 @@ export default {
 		position: absolute;
 		height: 100%;
 		border-radius: 2/75rem;
-		/*background: #d83b32;*/
-		background: #fff;
+		background: #d83b32;
 		top: 0;
 		left: 0;
 	}
