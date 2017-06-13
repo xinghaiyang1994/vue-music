@@ -3,21 +3,22 @@
 		<div class="main">
 			<div class="header">
 				<div class="header-left">
-					列表循环
+					<i class="icon icon-modelist icon-modelist-loop"></i>
+					<span>颠三倒四</span>
 				</div>
-				<div class="header-right" @click="delSong('all')">
+				<!--<div class="header-right" @click="delSong('all')">
 					<i class="icon icon-delall"></i><span>删除</span>
-				</div>
+				</div>-->
 			</div>
 			<div class="main-song">
 				<ul class="songList-wrap">
 					<li class="songList-list " v-bind:class="item.id == curSong.id ? 'songList-list-cur':''" v-for="(item,index) in songList">
-						<div class="songList-list-info">
+						<div class="songList-list-info" @click="tabSong(index)">
 							<i class="icon icon-voice-cur"></i>
 							<h4>{{item.title}}</h4>
 							<p>-&nbsp;{{item.author}}</p>
 						</div>
-						<i class="icon icon-del" @click="delSong(index)"></i>
+						<i class="icon icon-del" @click="delSong(index)" v-show="item.id != curSong.id"></i>
 					</li>
 				</ul>
 			</div>
@@ -46,6 +47,9 @@ export default {
 		},
 		delSong(index){
 			Store.commit('delSong',index);
+		},
+		tabSong(index){
+			Store.commit('tabSong',index);
 		}
 	}
 }
@@ -74,7 +78,11 @@ export default {
 	}
 	.header-left{
 		flex: 1;
-		line-height: 103/75rem;;
+		line-height: 103/75rem;
+		>span{
+			display: inline-block;
+			vertical-align: middle;
+		}
 	}
 	.header-right{
 		width: 156/75rem;
@@ -143,6 +151,15 @@ export default {
 		background-size: contain;
 		vertical-align: middle;
 	}
-	
+	.icon-modelist{
+		display: inline-block;
+		width: 70/75rem;
+		height: 103/75rem;
+		vertical-align: middle;
+	}
+	.icon-modelist-loop{
+		background: url(../assets/img/icon/icon-modelist-loop.png) no-repeat;
+		
+	}
 	
 </style>

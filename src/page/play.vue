@@ -24,14 +24,14 @@
 					<span>{{allTime | toShowTime}}</span>
 				</div>
 				<div class="footer-choose">
-					<i class="icon icon-mod"></i>
-					<span class="icon icon-ctrl-left"></span>
+					<i class="icon" v-bind:class="mode == 'loop'?'icon-mode-loop':'icon-mode-random'" @click="chooseMode"></i>
+					<span class="icon icon-ctrl-left" @click="tabSong('prev')"></span>
 					<div class="footer-ctrl">
 						<div class="ctrl-wrap" @click="ctrl">
 							<i class="icon icon-ctrl-start " v-bind:class="isStart?'':'icon-ctrl-stop'"></i>
 						</div>
 					</div>
-					<span class="icon icon-ctrl-right"></span>
+					<span class="icon icon-ctrl-right" @click="tabSong('next')"></span>
 					<i class="icon icon-song-list" @click="songListShow"></i>
 				</div>
 			</footer>
@@ -93,6 +93,9 @@ export default {
 		},
 		curVolume(){
 			return Store.state.curVolume;
+		},
+		mode(){
+			return Store.state.mode;
 		}
 	},
 	methods:{
@@ -104,6 +107,12 @@ export default {
 		},
 		songListShow(){
 			Store.commit('songListShow','show');
+		},
+		tabSong(info){
+			Store.commit('tabSong',info);
+		},
+		chooseMode(){
+			Store.commit('chooseMode');
 		}
 	},
 	components:{
@@ -114,17 +123,21 @@ export default {
 	mounted(){
 		var audio=document.querySelector('#audio');
 		var self=this;
-
+		
 //		歌曲播放时
 		audio.addEventListener('timeupdate',function(){
 			var time=parseInt(this.currentTime*100);
 			var allTime=parseInt(this.duration*100);
+			if(isNaN(allTime)){
+				allTime=0;
+			}
 			Store.commit('updateTime',time);
 			Store.commit('getAllTime',allTime);
+			if(time == allTime && allTime !=0){
+				Store.dispatch('chooseSong');
+			}
 		},false);		
 		audio.volume=Store.state.curVolume;
-		
-		
 
 //		歌曲进度控制	
 		var w=parseInt($('.progress-main').css('width'));
@@ -290,8 +303,12 @@ export default {
 			height: 132/75rem;
 		}
 	}
-	.icon-mod{
-		background: url(../assets/img/icon/icon-mode.png) no-repeat;
+	.icon-mode-loop{
+		background: url(../assets/img/icon/icon-mode-loop.png) no-repeat;
+		background-size: contain;
+	}
+	.icon-mode-random{
+		background: url(../assets/img/icon/icon-mode-random.png) no-repeat;
 		background-size: contain;
 	}
 	.icon-song-list{

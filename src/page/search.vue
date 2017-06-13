@@ -92,6 +92,7 @@ export default {
 		},
 		toPlay(item){
 			Store.commit('resetCur',item);
+			Store.commit('addSong',item);
 			Router.push('/play');
 		}
 	}
