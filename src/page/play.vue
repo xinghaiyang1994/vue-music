@@ -1,39 +1,42 @@
 <template>
-	<div class="play">
-		<audio v-bind:src="src" autoplay id="audio"></audio>
-		<header>
-			<i class="icon icon-back" @click="toBack"></i>
-			<div class="song-info">
-				<h2 class="song-title">{{curSong.title}}</h2>
-				<p class="song-author">{{curSong.author}}</p>
-			</div>
-			<i class="icon"></i>
-		</header>
-		<round class="section" v-show="!isLrc" v-bind:isStart="isStart" ></round>
-		<lrc class="section" v-show="isLrc" v-bind:curTime="curTime" v-bind:allTime="allTime"></lrc>
-		<footer>
-			<div class="progress">
-				<span>{{curTime | toShowTime}}</span>
-				<div class="progress-main">
-					<div class="progress-box">
-						<span class="progress-bar" v-bind:style="'width:'+(curTime*100/allTime)+'%'"></span>
-						<em class="progress-round" v-bind:style="'left:'+(curTime*100/allTime)+'%'"></em>
-					</div>
+	<div class="main-play">
+		<div class="play">
+			<audio v-bind:src="src" autoplay id="audio"></audio>
+			<header>
+				<i class="icon icon-back" @click="toBack"></i>
+				<div class="song-info">
+					<h2 class="song-title">{{curSong.title}}</h2>
+					<p class="song-author">{{curSong.author}}</p>
 				</div>
-				<span>{{allTime | toShowTime}}</span>
-			</div>
-			<div class="footer-choose">
-				<i class="icon icon-mod"></i>
-				<span class="icon icon-ctrl-left"></span>
-				<div class="footer-ctrl">
-					<div class="ctrl-wrap" @click="ctrl">
-						<i class="icon icon-ctrl-start " v-bind:class="isStart?'':'icon-ctrl-stop'"></i>
+				<i class="icon"></i>
+			</header>
+			<round class="section" v-show="!isLrc" v-bind:isStart="isStart" ></round>
+			<lrc class="section" v-show="isLrc" v-bind:curTime="curTime" v-bind:allTime="allTime"></lrc>
+			<footer>
+				<div class="progress">
+					<span>{{curTime | toShowTime}}</span>
+					<div class="progress-main">
+						<div class="progress-box">
+							<span class="progress-bar" v-bind:style="'width:'+(curTime*100/allTime)+'%'"></span>
+							<em class="progress-round" v-bind:style="'left:'+(curTime*100/allTime)+'%'"></em>
+						</div>
 					</div>
+					<span>{{allTime | toShowTime}}</span>
 				</div>
-				<span class="icon icon-ctrl-right"></span>
-				<i class="icon icon-song-list"></i>
-			</div>
-		</footer>
+				<div class="footer-choose">
+					<i class="icon icon-mod"></i>
+					<span class="icon icon-ctrl-left"></span>
+					<div class="footer-ctrl">
+						<div class="ctrl-wrap" @click="ctrl">
+							<i class="icon icon-ctrl-start " v-bind:class="isStart?'':'icon-ctrl-stop'"></i>
+						</div>
+					</div>
+					<span class="icon icon-ctrl-right"></span>
+					<i class="icon icon-song-list" @click="songListShow"></i>
+				</div>
+			</footer>
+		</div>
+		<song-list class="song-list" v-bind:isList="isList"></song-list>
 	</div>
 </template>
 
@@ -45,6 +48,7 @@ import Router from '../router';
 
 import round from '../components/round'; 
 import lrc from '../components/lrc'; 
+import songList from '../components/songList'; 
  
 function toTime(time){
 	return parseInt(time.split(':')[0])*6000+parseInt(time.split(':')[1]*100);
@@ -84,6 +88,9 @@ export default {
 		isStart(){
 			return Store.state.isStart;
 		},
+		isList(){
+			return Store.state.isList;
+		},
 		curVolume(){
 			return Store.state.curVolume;
 		}
@@ -94,11 +101,15 @@ export default {
 		},
 		ctrl(){
 			Store.commit('ctrl');
+		},
+		songListShow(){
+			Store.commit('songListShow','show');
 		}
 	},
 	components:{
 		round,
-		lrc
+		lrc,
+		songList
 	},
 	mounted(){
 		var audio=document.querySelector('#audio');
@@ -160,12 +171,24 @@ export default {
 		},
 		curVolume(value){
 			audio.volume=value;
+		},
+		isList(value){
+			var list=document.querySelector('.song-list');
+			if(value){
+				list.style.bottom=0;
+			}else{
+				list.style.bottom=-800/75+'rem';
+			}
 		}
 	}
 }
 </script>
 
 <style scoped lang="less">
+	.main-play{
+		position: relative;
+		height: 100%;
+	}
 	.play{
 		height: 100%;
 		background: #46352f;
@@ -305,4 +328,17 @@ export default {
 	.icon-ctrl-stop{
 		background: url(../assets/img/icon/icon-ctrl-stop.png) no-repeat;
 	}
+	.song-list{
+		position: absolute;
+		bottom: -800/75rem;
+		left: 0;
+		width: 100%;
+		height: 800/75rem;
+		background: #fff;
+		z-index: 1;
+		transition: bottom 1s; 
+	}
+	
+	
+	
 </style>

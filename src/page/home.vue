@@ -5,21 +5,16 @@
 				<header>
 					<i class="icon icon-nav" @click="sideShow"></i>
 					<nav>
+						<router-link to="/music" class="icon-nav-cm icon-nav-music"></router-link>
+						<router-link to="/song" class="icon-nav-cm icon-nav-song"></router-link>
+						<router-link to="/group" class="icon-nav-cm icon-nav-group"></router-link>
 					</nav>
 					<i class="icon icon-search" @click="toSearch"></i>
 				</header>
 				<section class="middle">
 					<router-view></router-view>
 				</section>
-				<footer @click="toPlay">
-					<div class="footer-left">
-						<img src="../assets/img/default.jpg" class="footer-img"/>
-						<div class="footer-info">
-							<h3>{{curSong.title}}</h3>
-							<p>{{curSong.author}}</p>
-						</div>
-					</div>
-				</footer>
+				<foot></foot>
 			</div>	
 		</div>
 		<side class="side" id="side" v-bind:isSide="isSide"></side>	
@@ -31,13 +26,10 @@ import Store from '../store';
 import Router from '../router';
 
 import side from '../components/side';
+import foot from '../components/foot';
 
 export default {
-	name: 'hello',
-	data() {
-		return {
-		}
-	},
+	name: 'home',
 	computed:{
 		curSong(){
 			return Store.state.curSong;
@@ -46,13 +38,13 @@ export default {
 			return Store.state.isSide;
 		}
 	},
-	components:{side},
+	components:{
+		side,
+		foot
+	},
 	methods:{
 		toSearch(){
 			Router.push('/search');
-		},
-		toPlay(){
-			Router.push('/play');
 		},
 		sideShow(){
 			Store.commit('side','show');
@@ -92,11 +84,9 @@ export default {
 		background: #d33a31;	
 		display: flex;
 	}
-	footer{
-		width: 100%;
-		display: flex;
-		height: 102/75rem;
-		background: #ffffff;	
+	nav{
+		flex: 1;
+		text-align: center;
 	}
 	.middle{
 		flex: 1;
@@ -114,38 +104,38 @@ export default {
 		background: url(../assets/img/icon/icon-search.png) no-repeat;
 		background-size: contain;
 	}
-	nav{
-		flex: 1;
-	}
-	.footer-left{
-		padding-top: 13/75rem;
-		padding-left: 12/75rem;
-		display: flex;
-	}
-	.footer-img{
-		width: 1rem;
-		height: 1rem;
-		margin-right: 19/75rem;
-	}
-	.footer-info{
-		flex: 1;
-		>h3{
-			font-size: 26/75rem;
-			font-weight: normal;
-			line-height: 38/75rem;
-			color: #1f1f1f;
-		}
-		>P{
-			font-size: 22/75rem;
-			line-height: 38/75rem;
-			color: #888888;
-		}		
-	}
+	
 	.side{
 		position: absolute;
 		top: 0;
 		left: -617/75rem;
 		transition: left 1s;
+	}
+	.icon-nav-cm{
+		display: inline-block;
+		width: 108/75rem;
+		height: 108/75rem;
+	}
+	.icon-nav-music{
+		background: url(../assets/img/icon/icon-nav-music.png) no-repeat;
+		background-size: contain;
+	}
+	.icon-nav-song{
+		background: url(../assets/img/icon/icon-nav-song.png) no-repeat;
+		background-size: contain;
+	}
+	.icon-nav-group{
+		background: url(../assets/img/icon/icon-nav-group.png) no-repeat;
+		background-size: contain;
+	}
+	.icon-nav-music.router-link-active{
+		background-image: url(../assets/img/icon/icon-nav-music-cur.png);
+	}
+	.icon-nav-song.router-link-active{
+		background-image: url(../assets/img/icon/icon-nav-song-cur.png);
+	}
+	.icon-nav-group.router-link-active{
+		background-image: url(../assets/img/icon/icon-nav-group-cur.png);
 	}
 	
 </style>

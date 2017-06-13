@@ -24,6 +24,7 @@
 					</ul>
 					
 				</section>
+				<foot></foot>
 			</div>	
 		</div>
 	</transition>
@@ -34,8 +35,10 @@ import Axios from 'axios';
 import Store from '../store';
 import Router from '../router';
 
+import foot from '../components/foot'
+
 export default {
-	name: 'hello',
+	name: 'search',
 	data() {
 		return {
 			txt: '',
@@ -44,6 +47,9 @@ export default {
 			aSong:[],
 			nTxt:''
 		}
+	},
+	components:{
+		foot
 	},
 	methods:{
 		back (){
@@ -64,7 +70,6 @@ export default {
 				}
 			}).then(function(res){
 				var aSong=res.data.data.song.list;
-				console.log(aSong)
 				if(aSong.length != 0){
 					var newSong=[];
 					for(var i=0;i<aSong.length;i++){
