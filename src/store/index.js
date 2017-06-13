@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import Router from '../router';
+
 function rnd(m,n){
 	return parseInt(m+Math.random()*(n-m+1));
 }
@@ -9,11 +11,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state:{
-		mode:'loop',				//播放模式
+		mode:'loop',		//播放模式
 		isList:false,		//播放页歌曲列表显隐
 		isSide:false,		//主页侧边显隐
 		isStart:true,		//是否播放
-		isLrc:false,			//是否切换到歌词
+		isLrc:false,		//是否切换到歌词
+		isShare:false,		//分享显隐
 		curSong:{			//当前歌曲信息
 			title:'青花瓷',
 			author:'周杰伦',
@@ -22,6 +25,12 @@ export default new Vuex.Store({
 		},
 		songList:[			//歌曲列表
 			{			
+				title:'安和桥',
+				author:'宋冬野',
+				id:5002687,
+				imgId:436025
+			},
+			{
 				title:'青花瓷',
 				author:'周杰伦',
 				id:410316,
@@ -86,6 +95,13 @@ export default new Vuex.Store({
 				state.isList=true;
 			}else if(info == 'hide'){
 				state.isList=false;
+			}
+		},
+		shareShow(state,info){
+			if(info == 'show'){
+				state.isShare=true;
+			}else if(info == 'hide'){
+				state.isShare=false;
 			}
 		},
 		delSong(state,index){
@@ -155,6 +171,24 @@ export default new Vuex.Store({
 				}
 				commit('tabSong',iRandom);
 			}
+		},
+		addSearchSong({state,commit},item){
+			var isExist=false;
+			var iNow;
+			var l=state.songList.length;
+			for(var i=0;i<l;i++){
+				if(state.songList[i].id == item.id){
+					isExist=true;
+					iNow=i;
+					break;
+				}
+			}
+			if(isExist){
+				state.songList.splice(iNow,1);
+				commit('addSong',item)
+			}
+			commit('resetCur',item);
+			Router.push('/play');
 		}
 	}
 

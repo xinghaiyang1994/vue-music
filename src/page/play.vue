@@ -1,14 +1,13 @@
 <template>
 	<div class="main-play">
 		<div class="play">
-			<audio v-bind:src="src" id="audio"></audio>
 			<header>
 				<i class="icon icon-back" @click="toBack"></i>
 				<div class="song-info">
 					<h2 class="song-title">{{curSong.title}}</h2>
 					<p class="song-author">{{curSong.author}}</p>
 				</div>
-				<i class="icon"></i>
+				<i class="icon icon-share" @click="shareShow"></i>
 			</header>
 			<round class="section" v-show="!isLrc" v-bind:isStart="isStart" ></round>
 			<lrc class="section" v-show="isLrc" v-bind:curTime="curTime" v-bind:allTime="allTime"></lrc>
@@ -37,6 +36,7 @@
 			</footer>
 		</div>
 		<song-list class="song-list" v-bind:isList="isList"></song-list>
+		<share  class="song-share" v-bind:isShare="isShare"></share>
 	</div>
 </template>
 
@@ -49,6 +49,7 @@ import Router from '../router';
 import round from '../components/round'; 
 import lrc from '../components/lrc'; 
 import songList from '../components/songList'; 
+import Share from '../components/share'; 
  
 function toTime(time){
 	return parseInt(time.split(':')[0])*6000+parseInt(time.split(':')[1]*100);
@@ -91,6 +92,9 @@ export default {
 		isList(){
 			return Store.state.isList;
 		},
+		isShare(){
+			return Store.state.isShare;
+		},
 		curVolume(){
 			return Store.state.curVolume;
 		},
@@ -108,6 +112,9 @@ export default {
 		songListShow(){
 			Store.commit('songListShow','show');
 		},
+		shareShow(){
+			Store.commit('shareShow','show');
+		},
 		tabSong(info){
 			Store.commit('tabSong',info);
 		},
@@ -118,7 +125,8 @@ export default {
 	components:{
 		round,
 		lrc,
-		songList
+		songList,
+		Share
 	},
 	mounted(){
 		var audio=document.querySelector('#audio');
@@ -191,6 +199,14 @@ export default {
 				list.style.bottom=0;
 			}else{
 				list.style.bottom=-800/75+'rem';
+			}
+		},
+		isShare(value){
+			var share=document.querySelector('.song-share');
+			if(value){
+				share.style.bottom=0;
+			}else{
+				share.style.bottom=-600/75+'rem';
 			}
 		}
 	}
@@ -355,7 +371,12 @@ export default {
 		z-index: 1;
 		transition: bottom 1s; 
 	}
-	
+	.icon-share{
+		width: 100/75rem;
+		height: 108/75rem;
+		background: url(../assets/img/icon/icon-share.png) no-repeat;
+		background-size: contain;
+	}
 	
 	
 </style>

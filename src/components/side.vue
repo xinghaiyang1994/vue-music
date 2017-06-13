@@ -2,7 +2,8 @@
 	<div class="side">
 		<div class="main">
 			<div class="header">
-				
+				<img src="../assets/img/default.jpg" class="photo"/>
+				<h2 class="name">海风闲闲的</h2>
 			</div>
 		</div>
 		<div class="side-close" @click="sideShow" v-show="isSide"></div>
@@ -46,5 +47,17 @@ export default {
 		height: 100%;
 		background: rgba(0,0,0,0.5);
 	}
-
+	.photo{
+		width: 134/75rem;
+		height: 134/75rem;
+		border-radius: 50%;
+		margin-top: 85/75rem;
+		margin-left: 20/75rem;
+	}
+	.name{
+		padding-left: 20/75rem;
+		color: #fff;
+		font-size: 32/75rem;
+		line-height: 64/75rem;
+	}
 </style>
