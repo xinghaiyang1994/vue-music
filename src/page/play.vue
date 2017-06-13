@@ -1,7 +1,7 @@
 <template>
 	<div class="main-play">
 		<div class="play">
-			<audio v-bind:src="src" autoplay id="audio"></audio>
+			<audio v-bind:src="src" id="audio"></audio>
 			<header>
 				<i class="icon icon-back" @click="toBack"></i>
 				<div class="song-info">

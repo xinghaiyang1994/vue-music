@@ -3,8 +3,8 @@
 		<div class="main">
 			<div class="header">
 				<div class="header-left">
-					<i class="icon icon-modelist icon-modelist-loop"></i>
-					<span>颠三倒四</span>
+					<i class="icon icon-modelist " v-bind:class="mode == 'loop'? 'icon-modelist-loop':'icon-modelist-random'" @click="chooseMode"></i>
+					<span v-html="modeTxt"></span>
 				</div>
 				<!--<div class="header-right" @click="delSong('all')">
 					<i class="icon icon-delall"></i><span>删除</span>
@@ -38,6 +38,18 @@ export default {
 		},
 		songList(){
 			return Store.state.songList;
+		},
+		mode(){
+			return Store.state.mode;
+		},
+		modeTxt(){
+			var txt;
+			if(Store.state.mode == 'loop'){
+				txt='列表循环(';
+			}else if(Store.state.mode == 'random'){
+				txt='随机播放(';
+			}
+			return txt+Store.state.songList.length+')';
 		}
 	},
 	props:['isList'],
@@ -50,6 +62,9 @@ export default {
 		},
 		tabSong(index){
 			Store.commit('tabSong',index);
+		},
+		chooseMode(){
+			Store.commit('chooseMode');
 		}
 	}
 }
@@ -159,7 +174,11 @@ export default {
 	}
 	.icon-modelist-loop{
 		background: url(../assets/img/icon/icon-modelist-loop.png) no-repeat;
-		
+		background-size: contain;
+	}
+	.icon-modelist-random{
+		background: url(../assets/img/icon/icon-modelist-random.png) no-repeat;
+		background-size: contain;
 	}
 	
 </style>
