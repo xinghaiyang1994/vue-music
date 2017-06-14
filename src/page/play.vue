@@ -36,7 +36,7 @@
 			</footer>
 		</div>
 		<song-list class="song-list" v-bind:isList="isList"></song-list>
-		<share  class="song-share" v-bind:isShare="isShare"></share>
+		<!--<share  class="song-share" v-bind:isShare="isShare"></share>-->
 	</div>
 </template>
 
@@ -49,7 +49,7 @@ import Router from '../router';
 import round from '../components/round'; 
 import lrc from '../components/lrc'; 
 import songList from '../components/songList'; 
-import Share from '../components/share'; 
+//import Share from '../components/share'; 
  
 function toTime(time){
 	return parseInt(time.split(':')[0])*6000+parseInt(time.split(':')[1]*100);
@@ -126,27 +126,12 @@ export default {
 		round,
 		lrc,
 		songList,
-		Share
+//		Share
 	},
 	mounted(){
 		var audio=document.querySelector('#audio');
 		var self=this;
 		
-//		歌曲播放时
-		audio.addEventListener('timeupdate',function(){
-			var time=parseInt(this.currentTime*100);
-			var allTime=parseInt(this.duration*100);
-			if(isNaN(allTime)){
-				allTime=0;
-			}
-			Store.commit('updateTime',time);
-			Store.commit('getAllTime',allTime);
-			if(time == allTime && allTime !=0){
-				Store.dispatch('chooseSong');
-			}
-		},false);		
-		audio.volume=Store.state.curVolume;
-
 //		歌曲进度控制	
 		var w=parseInt($('.progress-main').css('width'));
 		$('.progress-round')[0].addEventListener('touchstart',function(e){
@@ -360,16 +345,6 @@ export default {
 	}
 	.icon-ctrl-stop{
 		background: url(../assets/img/icon/icon-ctrl-stop.png) no-repeat;
-	}
-	.song-list{
-		position: absolute;
-		bottom: -800/75rem;
-		left: 0;
-		width: 100%;
-		height: 800/75rem;
-		background: #fff;
-		z-index: 1;
-		transition: bottom 1s; 
 	}
 	.icon-share{
 		width: 100/75rem;

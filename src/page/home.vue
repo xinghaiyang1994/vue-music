@@ -18,6 +18,7 @@
 			</div>	
 		</div>
 		<side class="side" id="side" v-bind:isSide="isSide"></side>	
+		<song-list class="song-list" v-bind:isList="isList"></song-list>
 	</div>
 </template>
 
@@ -27,6 +28,7 @@ import Router from '../router';
 
 import side from '../components/side';
 import foot from '../components/foot';
+import songList from '../components/songList';
 
 export default {
 	name: 'home',
@@ -36,11 +38,15 @@ export default {
 		},
 		isSide(){
 			return Store.state.isSide;
+		},
+		isList(){
+			return Store.state.isList;
 		}
 	},
 	components:{
 		side,
-		foot
+		foot,
+		songList
 	},
 	methods:{
 		toSearch(){
@@ -57,6 +63,14 @@ export default {
 				side.style.left=0;
 			}else{
 				side.style.left=-(617/75)+'rem';
+			}
+		},
+		isList(value){
+			var list=document.querySelector('.song-list');
+			if(value){
+				list.style.bottom=0;
+			}else{
+				list.style.bottom=-800/75+'rem';
 			}
 		}
 	}

@@ -71,6 +71,16 @@ export default {
 </script>
 
 <style scoped lang="less">
+	.main-list{
+		position: absolute;
+		bottom: -800/75rem;
+		left: 0;
+		width: 100%;
+		height: 800/75rem;
+		background: #fff;
+		z-index: 1;
+		transition: bottom 1s; 
+	}
 	.main{
 		width: 100%;
 		height: 100%;

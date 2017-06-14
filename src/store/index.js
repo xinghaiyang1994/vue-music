@@ -11,36 +11,41 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state:{
-		mode:'loop',		//播放模式
+		mode:'loop',			//播放模式
 		isList:false,		//播放页歌曲列表显隐
+		isHomeList:true,	//播放页歌曲列表显隐
 		isSide:false,		//主页侧边显隐
 		isStart:true,		//是否播放
-		isLrc:false,		//是否切换到歌词
+		isLrc:false,			//是否切换到歌词
 		isShare:false,		//分享显隐
 		curSong:{			//当前歌曲信息
 			title:'青花瓷',
 			author:'周杰伦',
 			id:410316,
-			imgId:33021
+			imgId:33021,
+			album:'我很忙'
 		},
 		songList:[			//歌曲列表
 			{			
 				title:'安和桥',
 				author:'宋冬野',
 				id:5002687,
-				imgId:436025
+				imgId:436025,
+				album:'安和桥北'
 			},
 			{
 				title:'青花瓷',
 				author:'周杰伦',
 				id:410316,
-				imgId:33021
+				imgId:33021,
+				album:'我很忙'
 			},
 			{			
 				title:'红尘客栈',
 				author:'周杰伦',
 				id:5177680,
-				imgId:194021
+				imgId:194021,
+				album:'十二新作'
 			},
 			{			
 				title:'流年',
@@ -151,6 +156,9 @@ export default new Vuex.Store({
 				}
 				state.curSong=state.songList[iNow];
 			}
+		},
+		changeHomeList(state){
+			state.isHomeList=!state.isHomeList;
 		}
 	},
 	actions:{
@@ -185,8 +193,8 @@ export default new Vuex.Store({
 			}
 			if(isExist){
 				state.songList.splice(iNow,1);
-				commit('addSong',item)
 			}
+			commit('addSong',item)
 			commit('resetCur',item);
 			Router.push('/play');
 		}
