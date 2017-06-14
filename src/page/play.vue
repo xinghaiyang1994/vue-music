@@ -36,7 +36,7 @@
 			</footer>
 		</div>
 		<song-list class="song-list" v-bind:isList="isList"></song-list>
-		<!--<share  class="song-share" v-bind:isShare="isShare"></share>-->
+		<share  class="song-share" v-bind:isShare="isShare"></share>
 	</div>
 </template>
 
@@ -49,7 +49,7 @@ import Router from '../router';
 import round from '../components/round'; 
 import lrc from '../components/lrc'; 
 import songList from '../components/songList'; 
-//import Share from '../components/share'; 
+import Share from '../components/share'; 
  
 function toTime(time){
 	return parseInt(time.split(':')[0])*6000+parseInt(time.split(':')[1]*100);
@@ -126,7 +126,7 @@ export default {
 		round,
 		lrc,
 		songList,
-//		Share
+		Share
 	},
 	mounted(){
 		var audio=document.querySelector('#audio');

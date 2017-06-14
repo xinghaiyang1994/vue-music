@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from '../page/home';
 import Search from '../page/search';
 import Play from '../page/play';
+import MySong from '../page/mysong';
 
 import Music from '../components/music';
 import Song from '../components/song';
@@ -42,6 +43,11 @@ export default new Router({
     	path: '/play',
       name: 'play',
       component: Play
+    },
+    {
+    	path: '/mysong',
+      name: 'mysong',
+      component: MySong
     }
   ]
 })

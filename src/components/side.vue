@@ -5,6 +5,10 @@
 				<img src="../assets/img/default.jpg" class="photo"/>
 				<h2 class="name">海风闲闲的</h2>
 			</div>
+			<div class="main-qrcode">
+				<h3>手机扫一扫体验</h3>
+				<img src="" id="qrcode" />
+			</div>
 		</div>
 		<div class="side-close" @click="sideShow" v-show="isSide"></div>
 	</div>
@@ -12,14 +16,28 @@
 
 <script>
 import Store from '../store';
-	
+
 export default {
 	methods:{
 		sideShow(){
 			Store.commit('side','hide');
 		}
 	},
-	props:['isSide']
+	props:['isSide'],
+	mounted(){
+		var qrcode=document.querySelector('#qrcode');
+		$.ajax({
+			type:"get",
+			url:"http://xinghaiyang.com/phpqrcode/index.php",
+			data:{
+				href:location.href
+			},
+			success:function(res){
+				var src=res.match(/(?=")(.*)(?=")/)[0].replace('"','');
+				qrcode.src='http://www.xinghaiyang.com/phpqrcode/'+src;
+			}
+		});
+	}
 }
 </script>
 
@@ -59,5 +77,16 @@ export default {
 		color: #fff;
 		font-size: 32/75rem;
 		line-height: 64/75rem;
+	}
+	.main-qrcode{
+		width: 6rem;
+		margin: 1rem auto 0;
+		>h3{
+			text-align: center;
+		}
+		>img{
+			width: 100%;
+			height: 6rem;
+		}
 	}
 </style>

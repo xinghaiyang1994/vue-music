@@ -3,7 +3,7 @@
 		<div class="share-main">
 			<h2 class="share-title">分享:</h2>
 			<div class="mip-share-container">
-			    <mip-share></mip-share>
+			    <mip-share title="Vue移动版网易云音乐" content="http://www.music.xinghaiyang.com"></mip-share>
 			</div>
 		</div>
 		<div class="share-close" v-show="isShare" @click="shareShow"></div>

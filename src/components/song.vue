@@ -1,6 +1,6 @@
 <template>
-	<div class="">
-		song
+	<div class="song">
+		暂未开放歌曲排行功能
 	</div>
 </template>
 
@@ -26,9 +26,12 @@ export default {
 //				alert('fail');
 //			}
 //		});
-
 	}
 }</script>
 
-<style>
+<style scoped lang="less">
+	.song{
+		text-align: center;
+		line-height: 2rem;
+	}
 </style>

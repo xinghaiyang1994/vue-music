@@ -51,7 +51,8 @@ export default new Vuex.Store({
 				title:'流年',
 				author:'王菲',
 				id:1253916,
-				imgId:104072
+				imgId:104072,
+				album:'<span class="c_tx_highlight">王菲</span>'
 			}
 		],
 		curLrc:[],			//当前歌词
@@ -143,17 +144,28 @@ export default new Vuex.Store({
 						iNow=i;
 					}
 				}
-				if(info == 'next'){
-					iNow++;
-					if(iNow>l-1){
-						iNow=0;
+				if(state.mode == 'loop'){
+					
+					if(info == 'next'){
+						iNow++;
+						if(iNow>l-1){
+							iNow=0;
+						}
+					}else if(info == 'prev'){
+						iNow--;
+						if(iNow<0){
+							iNow=l-1;
+						}
 					}
-				}else if(info == 'prev'){
-					iNow--;
-					if(iNow<0){
-						iNow=l-1;
+					
+				}else if(state.mode == 'random'){
+					var iRandom=rnd(0,state.songList.length-1);
+					while(iRandom == iNow){
+						iRandom=rnd(0,state.songList.length-1);
 					}
+					iNow=iRandom;
 				}
+				
 				state.curSong=state.songList[iNow];
 			}
 		},

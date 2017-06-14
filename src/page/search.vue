@@ -1,39 +1,39 @@
 <template>
 	<transition name="fade">
-			<div class="home">
-				<div class="main">
-					<header>
-						<i class="icon icon-back" @click="back"></i>
-						<div class="search-wrap">
-							<input type="text" placeholder="搜索音乐、歌手、歌词、用户" class="search-inp" v-model="txt" @focus="whenFocus" />
-							<i class="icon icon-cancel" v-show="txt" @click="clearTxt"></i>
-							<div class="search-sub" v-show="isFocus && txt" @click="search">
-								搜索“{{txt}}”
-							</div>
+		<div class="home">
+			<div class="main">
+				<header>
+					<i class="icon icon-back" @click="back"></i>
+					<div class="search-wrap">
+						<input type="text" placeholder="搜索音乐、歌手、歌词、用户" class="search-inp" v-model="txt" @focus="whenFocus" />
+						<i class="icon icon-cancel" v-show="txt" @click="clearTxt"></i>
+						<div class="search-sub" v-show="isFocus && txt" @click="search">
+							搜索“{{txt}}”
 						</div>
-					</header>
-					<section class="middle">
-						<div class="find-nothing" v-if="isSearch && (aSong.length==0)">未找到与"{{nTxt}}"相关的内容</div>
-						<ul v-else-if="aSong.length!=0" class="song-wrap">
-							<li class="song-lists" v-for="(item,index) in aSong">
-								<div @click="toPlay(item)">
-									<h3 class="song-list-title">{{item.title}}</h3>
-									<div class="song-list-bottom">
-										<span class="song-list-sq">SQ</span>
-										<p class="song-list-author">{{item.author}}
-											<span class="song-list-album" v-html="'- '+item.album"></span>
-										</p>
-										
-									</div>
+					</div>
+				</header>
+				<section class="middle">
+					<div class="find-nothing" v-if="isSearch && (aSong.length==0)">未找到与"{{nTxt}}"相关的内容</div>
+					<ul v-else-if="aSong.length!=0" class="song-wrap">
+						<li class="song-lists" v-for="(item,index) in aSong">
+							<div @click="toPlay(item)">
+								<h3 class="song-list-title">{{item.title}}</h3>
+								<div class="song-list-bottom">
+									<span class="song-list-sq">SQ</span>
+									<p class="song-list-author">{{item.author}}
+										<span class="song-list-album" v-html="'- '+item.album"></span>
+									</p>
+									
 								</div>
-							</li>
-						</ul>
-						
-					</section>
-					<foot></foot>
-				</div>	
-				<song-list class="song-list" v-bind:isList="isList"></song-list>
-			</div>
+							</div>
+						</li>
+					</ul>
+					
+				</section>
+				<foot></foot>
+			</div>	
+			<song-list class="song-list" v-bind:isList="isList"></song-list>
+		</div>
 	</transition>
 </template>
 
@@ -84,7 +84,6 @@ export default {
 				}
 			}).then(function(res){
 				var aSong=res.data.data.song.list;
-				console.log(aSong)
 				if(aSong.length != 0){
 					var newSong=[];
 					for(var i=0;i<aSong.length;i++){
