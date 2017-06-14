@@ -89,7 +89,7 @@ export default {
 		left: 346/75rem;
 		width: 185/75rem;
 		height: 264/75rem;
-		background: url(../assets/img/round-top.png) no-repeat center;
+		background: url(/static/img/round-top.png) no-repeat center;
 		transform-origin:30/75rem top;
 		transform: rotateZ(-45deg);
 		transition: all 0.5s;

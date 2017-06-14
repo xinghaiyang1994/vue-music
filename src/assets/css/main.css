@@ -46,17 +46,3 @@ audio{
 
 
 
-
-/*分享*/
-.c-line-clamp1{
-	display: none;
-}
-.c-share-list{
-	background: transparent;	
-}
-.c-share-list .c-share-btn .c-img{
-	border: none;
-}
-.c-share-list .c-span1, .c-share-list .c-span2, .c-share-list .c-span3, .c-share-list .c-span4, .c-share-list .c-span5, .c-share-list .c-span6, .c-share-list .c-span7, .c-share-list .c-span8, .c-share-list .c-span9, .c-share-list .c-span10, .c-share-list .c-span11, .c-share-list .c-span12{
-	padding: 1.81818182%;
-}

@@ -54,7 +54,7 @@ export default {
 	.header{
 		width: 100%;
 		height: 328/75rem;
-		background: url(../assets/img/side-bg.jpg) no-repeat;
+		background: url(/static/img/side-bg.jpg) no-repeat;
 		background-size: cover;
 	}
 	.side-close{

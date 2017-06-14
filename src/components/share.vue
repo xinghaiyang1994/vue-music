@@ -2,8 +2,9 @@
 	<div class="share">
 		<div class="share-main">
 			<h2 class="share-title">分享:</h2>
-			<div class="mip-share-container">
-			    <mip-share title="Vue移动版网易云音乐" content="http://www.music.xinghaiyang.com"></mip-share>
+			<div class="share-wrap">
+			   <i class="icon icon-share-qzone" data-share="qzone"></i>
+			   <i class="icon icon-share-wb" data-share="weibo"></i>
 			</div>
 		</div>
 		<div class="share-close" v-show="isShare" @click="shareShow"></div>
@@ -13,12 +14,22 @@
 <script>
 import Store from '../store'; 
 
+import $ from '../assets/js/jquery.js';
+import Share from '../assets/js/share.js';
+
 export default {
 	props:['isShare'],
 	methods:{
 		shareShow(){
 			Store.commit('shareShow','hide');
 		}
+	},
+	mounted(){
+		new Share({  
+		    dom:['.icon-share-qzone','.icon-share-wb'],         
+		    contentDom:'http://www.music.xinghaiyang.com',  
+		    title:'Vue移动版网易云音乐'        
+		});
 	}
 }
 </script>
@@ -48,7 +59,24 @@ export default {
 		color: #8a8a8a;
 		padding-top: 50/75rem;
 	}
-	
+	.share-wrap{
+		padding: 1rem;
+	}
+	.icon-share-qzone{
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
+		background: url(../assets/img/icon/icon-share-qzone.png) no-repeat #fff;
+		background-size: contain;
+		margin-right: 0.5rem;
+	}
+	.icon-share-wb{
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
+		background: url(../assets/img/icon/icon-share-wb.png) no-repeat #fff;
+		background-size: contain;
+	}
 	
 	
 	
