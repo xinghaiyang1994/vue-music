@@ -60,17 +60,17 @@ export default {
 		isSide(value){
 			var side=document.querySelector('#side');
 			if(value){
-				side.style.left=0;
+				side.style.transform='translateX('+(617/75)+'rem)';
 			}else{
-				side.style.left=-(617/75)+'rem';
+				side.style.transform='translateX(0)';
 			}
 		},
 		isList(value){
 			var list=document.querySelector('.song-list');
 			if(value){
-				list.style.bottom=0;
+				list.style.transform='translateY(-'+(800/75)+'rem)';
 			}else{
-				list.style.bottom=-800/75+'rem';
+				list.style.transform='translateY(0)';
 			}
 		}
 	}
@@ -123,7 +123,7 @@ export default {
 		position: absolute;
 		top: 0;
 		left: -617/75rem;
-		transition: left 1s;
+		transition: all 1s;
 	}
 	.icon-nav-cm{
 		display: inline-block;

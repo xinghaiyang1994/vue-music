@@ -41,7 +41,7 @@ export default {
 		height: 500/75rem;
 		bottom: -600/75rem;
 		left: 0;
-		transition: bottom 1s; 
+		transition: all 1s; 
 		background: #f3f3f3;
 		z-index: 1;
 	}

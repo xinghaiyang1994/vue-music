@@ -23,11 +23,11 @@
 					<span>{{allTime | toShowTime}}</span>
 				</div>
 				<div class="footer-choose">
-					<i class="icon" v-bind:class="mode == 'loop'?'icon-mode-loop':'icon-mode-random'" @click="chooseMode"></i>
+					<i class="icon" v-bind:class="modeIcon" @click="chooseMode"></i>
 					<span class="icon icon-ctrl-left" @click="tabSong('prev')"></span>
 					<div class="footer-ctrl">
-						<div class="ctrl-wrap" @click="ctrl">
-							<i class="icon icon-ctrl-start " v-bind:class="isStart?'':'icon-ctrl-stop'"></i>
+						<div class="ctrl-wrap icon-ctrl-start" @click="ctrl" v-bind:class="isStart?'':'icon-ctrl-stop'">
+							<i class="icon icon-ctrl-start " ></i>
 						</div>
 					</div>
 					<span class="icon icon-ctrl-right" @click="tabSong('next')"></span>
@@ -100,6 +100,15 @@ export default {
 		},
 		mode(){
 			return Store.state.mode;
+		},
+		modeIcon(){
+			if(Store.state.mode == 'loop'){
+				return 'icon-mode-loop';
+			}else if(Store.state.mode == 'random'){
+				return 'icon-mode-random';
+			}else if(Store.state.mode == 'one'){
+				return 'icon-mode-one';
+			}
 		}
 	},
 	methods:{
@@ -181,17 +190,17 @@ export default {
 		isList(value){
 			var list=document.querySelector('.song-list');
 			if(value){
-				list.style.bottom=0;
+				list.style.transform='translateY(-'+(800/75)+'rem)';
 			}else{
-				list.style.bottom=-800/75+'rem';
+				list.style.transform='translateY(0)';
 			}
 		},
 		isShare(value){
 			var share=document.querySelector('.song-share');
 			if(value){
-				share.style.bottom=0;
+				share.style.transform='translateY(-'+(600/75)+'rem)';
 			}else{
-				share.style.bottom=-600/75+'rem';
+				share.style.transform='translateX(0)';
 			}
 		}
 	}
@@ -312,6 +321,10 @@ export default {
 		background: url(../assets/img/icon/icon-mode-random.png) no-repeat;
 		background-size: contain;
 	}
+	.icon-mode-one{
+		background: url(../assets/img/icon/icon-mode-one.png) no-repeat;
+		background-size: contain;
+	}
 	.icon-song-list{
 		background: url(../assets/img/icon/icon-song-list.png) no-repeat;
 		background-size: contain;
@@ -329,22 +342,18 @@ export default {
 	}
 	.ctrl-wrap{
 		display: block;
-		width: 94/75rem;
-		height: 94/75rem;
+		width: 98/75rem;
+		height: 98/75rem;
 		border-radius: 50%;
-		border: 2/75rem solid #9997a0;
-		margin: 18/75rem auto 0;
+		margin: 22/75rem auto 0;
 	}
 	.icon-ctrl-start{
-		display: block;
-		width: 46/75rem;
-		height: 46/75rem;
 		background: url(../assets/img/icon/icon-ctrl-start.png) no-repeat;
 		background-size: contain;
-		margin: 22/75rem auto 0;
 	}
 	.icon-ctrl-stop{
 		background: url(../assets/img/icon/icon-ctrl-stop.png) no-repeat;
+		background-size: contain;
 	}
 	.icon-share{
 		width: 100/75rem;
@@ -352,6 +361,5 @@ export default {
 		background: url(../assets/img/icon/icon-share.png) no-repeat;
 		background-size: contain;
 	}
-	
 	
 </style>

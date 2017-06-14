@@ -94,9 +94,9 @@ export default {
 		isList(value){
 			var list=document.querySelector('.song-list');
 			if(value){
-				list.style.bottom=0;
+				list.style.transform='translateY(-'+(800/75)+'rem)';
 			}else{
-				list.style.bottom=-800/75+'rem';
+				list.style.transform='translateY(0)';
 			}
 		}
 	}

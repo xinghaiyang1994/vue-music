@@ -130,6 +130,8 @@ export default new Vuex.Store({
 			if(state.mode == 'loop'){
 				state.mode='random';
 			}else if(state.mode == 'random'){
+				state.mode='one';
+			}else if(state.mode == 'one'){
 				state.mode='loop';
 			}
 		},
@@ -145,7 +147,6 @@ export default new Vuex.Store({
 					}
 				}
 				if(state.mode == 'loop'){
-					
 					if(info == 'next'){
 						iNow++;
 						if(iNow>l-1){
@@ -159,11 +160,14 @@ export default new Vuex.Store({
 					}
 					
 				}else if(state.mode == 'random'){
+					
+					audio.removeAttribute('loop');
 					var iRandom=rnd(0,state.songList.length-1);
 					while(iRandom == iNow){
 						iRandom=rnd(0,state.songList.length-1);
 					}
 					iNow=iRandom;
+				}else if(state.mode == 'one'){
 				}
 				
 				state.curSong=state.songList[iNow];
@@ -190,6 +194,8 @@ export default new Vuex.Store({
 					iRandom=rnd(0,state.songList.length-1);
 				}
 				commit('tabSong',iRandom);
+			}else if(state.mode == 'one'){
+				
 			}
 		},
 		addSearchSong({state,commit},item){

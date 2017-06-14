@@ -3,7 +3,7 @@
 		<div class="main">
 			<div class="header">
 				<div class="header-left">
-					<i class="icon icon-modelist " v-bind:class="mode == 'loop'? 'icon-modelist-loop':'icon-modelist-random'" @click="chooseMode"></i>
+					<i class="icon icon-modelist " v-bind:class="modeIcon" @click="chooseMode"></i>
 					<span v-html="modeTxt"></span>
 				</div>
 				<!--<div class="header-right" @click="delSong('all')">
@@ -48,8 +48,19 @@ export default {
 				txt='列表循环(';
 			}else if(Store.state.mode == 'random'){
 				txt='随机播放(';
+			}else if(Store.state.mode == 'one'){
+				txt='单曲循环(';
 			}
 			return txt+Store.state.songList.length+')';
+		},
+		modeIcon(){
+			if(Store.state.mode == 'loop'){
+				return 'icon-modelist-loop';
+			}else if(Store.state.mode == 'random'){
+				return 'icon-modelist-random';
+			}else if(Store.state.mode == 'one'){
+				return 'icon-modelist-one';
+			}
 		}
 	},
 	props:['isList'],
@@ -79,7 +90,7 @@ export default {
 		height: 800/75rem;
 		background: #fff;
 		z-index: 1;
-		transition: bottom 1s; 
+		transition: all 1s; 
 	}
 	.main{
 		width: 100%;
@@ -188,6 +199,10 @@ export default {
 	}
 	.icon-modelist-random{
 		background: url(../assets/img/icon/icon-modelist-random.png) no-repeat;
+		background-size: contain;
+	}
+	.icon-modelist-one{
+		background: url(../assets/img/icon/icon-modelist-one.png) no-repeat;
 		background-size: contain;
 	}
 	

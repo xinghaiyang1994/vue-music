@@ -17,7 +17,7 @@
 					<div class="music-list-middle">
 						<div class="music-list-info">
 							<h3>我喜欢的音乐</h3>
-							<p>46首</p>
+							<p>{{songList.length}}首</p>
 						</div>
 						<i class="icon icon-home-volume"></i>
 					</div>
@@ -35,6 +35,9 @@ export default{
 	computed:{
 		isHomeList(){
 			return Store.state.isHomeList;
+		},
+		songList(){
+			return Store.state.songList;
 		}
 	},
 	methods:{

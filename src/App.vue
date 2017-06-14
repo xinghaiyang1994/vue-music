@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  	<audio v-bind:src="src" autoplay id="audio"></audio>
+  	<audio v-bind:src="src" autoplay id="audio" v-bind:loop="isLoop"></audio>
     <router-view></router-view>
   </div>
 </template>
@@ -15,6 +15,13 @@ export default {
 				return "http://ws.stream.qqmusic.qq.com/"+Store.state.curSong.id+".m4a?fromtag=46";
 			}else{
 				return '';
+			}
+		},
+		isLoop(){
+			if(Store.state.mode == 'one'){
+				return true;
+			}else{
+				return false;
 			}
 		}
 	},

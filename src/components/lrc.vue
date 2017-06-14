@@ -200,10 +200,10 @@ export default {
 	.volume-round{
 		position: absolute;
 		display: block;
-		width: 18/75rem;
-		height: 18/75rem;
-		top: -7/75rem;
-		margin-left: -9/75rem;
+		width: 26/75rem;
+		height: 26/75rem;
+		top: -11/75rem;
+		margin-left: -13/75rem;
 		border-radius: 50%;
 		background: #fff;
 		
