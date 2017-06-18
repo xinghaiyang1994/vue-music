@@ -175,7 +175,7 @@ export default {
 		display: block;
 		width: 38/75rem;
 		height: 38/75rem;
-		background: url(/assets/img/icon/icon-volume.png) no-repeat;
+		background: url(/static/img/icon/icon-volume.png) no-repeat;
 		background-size: contain;
 		margin: 0 32/75rem 0 42/75rem;
 	}
